@@ -1,0 +1,38 @@
+buildscript {
+	dependencies {
+		classpath 'io.freefair.gradle:lombok-plugin:5.2.1'
+	}
+}
+
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+apply plugin: 'io.freefair.lombok'
+generateLombokConfig.enabled = false
+
+targetCompatibility = JavaVersion.VERSION_1_10
+sourceCompatibility = JavaVersion.VERSION_1_10
+group               = 'dk.danskebank.markets'
+version             = '0.0.1'
+
+repositories {
+	add rootProject.buildscript.repositories.getByName('joined-gradle')
+	jcenter()
+}
+
+java {
+	withJavadocJar()
+	withSourcesJar()
+}
+
+jar {
+	manifest {
+		attributes('Implementation-Title': project.name, 'Implementation-Version': project.version)
+	}
+}
+
+dependencies {
+	implementation     group: 'org.slf4j',         name: 'slf4j-api',     version: '1.7.30'
+	testImplementation group: 'org.mockito',       name: 'mockito-core',  version: '3.5.10'
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.6.2'
+}
