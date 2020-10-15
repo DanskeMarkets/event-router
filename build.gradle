@@ -7,11 +7,13 @@ plugins {
 
 targetCompatibility = JavaVersion.VERSION_1_10
 sourceCompatibility = JavaVersion.VERSION_1_10
+
+archivesBaseName    = "event-router"
 group               = 'com.github.danskemarkets'
 version             = '0.0.1'
 
 repositories {
-	jcenter()
+	mavenCentral()
 }
 
 java {
@@ -19,14 +21,62 @@ java {
 	withSourcesJar()
 }
 
-jar {
-	manifest {
-		attributes('Implementation-Title': project.name, 'Implementation-Version': project.version)
-	}
+artifacts {
+	archives javadocJar, sourcesJar
+}
+
+signing {
+	sign configurations.archives
 }
 
 dependencies {
 	implementation     group: 'org.slf4j',         name: 'slf4j-api',     version: '1.7.30'
 	testImplementation group: 'org.mockito',       name: 'mockito-core',  version: '3.5.10'
 	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.6.2'
+}
+
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+			repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+				authentication(userName: ossrhUsername, password: ossrhPassword)
+			}
+
+			snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+				authentication(userName: ossrhUsername, password: ossrhPassword)
+			}
+
+			pom.project {
+				name 'Event Router'
+				packaging 'jar'
+
+				description 'Efficient routing of events with a DSL for providing a concise overview.'
+				url 'https://github.com/danskemarkets/event-router'
+
+				scm {
+					connection 'scm:git:git://github.com/danskemarkets/event-router'
+					developerConnection 'scm:git:git://github.com/danskemarkets/event-router'
+					url 'https://github.com/danskemarkets/event-router'
+				}
+
+				licenses {
+					license {
+						name 'The MIT License'
+						url 'https://opensource.org/licenses/MIT'
+					}
+				}
+
+				developers {
+					developer {
+						id 'nisch'
+						name 'Nicholas Schultz-Møller'
+						email 'nisch@danskebank.dk'
+						organization 'Danske Bank A/S'
+					}
+				}
+			}
+		}
+	}
 }
