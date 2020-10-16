@@ -8,11 +8,23 @@ plugins {
 targetCompatibility = JavaVersion.VERSION_1_10
 sourceCompatibility = JavaVersion.VERSION_1_10
 
-archivesBaseName    = "event-router"
+archivesBaseName    = 'event-router'
 group               = 'com.github.danskemarkets'
 version             = '0.0.1'
 
 repositories {
+	// Needed for the developer environment inside Danske Bank.
+	if (artifactory_joinedUrl != '') {
+		maven {
+			name = 'joined-gradle'
+			url artifactory_joinedUrl
+			credentials {
+				username = artifactory_user
+				password = artifactory_password
+			}
+		}
+	}
+
 	mavenCentral()
 }
 
