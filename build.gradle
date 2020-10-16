@@ -14,7 +14,7 @@ version             = '0.0.1'
 
 repositories {
 	// Needed for the developer environment inside Danske Bank.
-	if (artifactory_joinedUrl != '') {
+	if (System.properties['inside'] == 'Danske') {
 		maven {
 			name = 'joined-gradle'
 			url artifactory_joinedUrl

@@ -1,5 +1,5 @@
 // Needed for the developer environment inside Danske Bank.
-if (artifactory_joinedUrl != '') {
+if (System.properties['inside'] == 'Danske') {
     pluginManagement {
         repositories {
             maven {
