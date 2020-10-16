@@ -12,6 +12,7 @@
 .apt_generated/
 
 # Gradle:
+gradle.properties
 .gradle/
 build/
 out/

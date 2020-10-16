@@ -25,58 +25,59 @@ artifacts {
 	archives javadocJar, sourcesJar
 }
 
-signing {
-	sign configurations.archives
-}
-
 dependencies {
 	implementation     group: 'org.slf4j',         name: 'slf4j-api',     version: '1.7.30'
 	testImplementation group: 'org.mockito',       name: 'mockito-core',  version: '3.5.10'
 	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.6.2'
 }
 
-uploadArchives {
-	repositories {
-		mavenDeployer {
-			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+publishing {
+	publications {
+		eventRouter(MavenPublication) {
+			from components.java
 
-			repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-				authentication(userName: ossrhUsername, password: ossrhPassword)
-			}
-
-			snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-				authentication(userName: ossrhUsername, password: ossrhPassword)
-			}
-
-			pom.project {
-				name 'Event Router'
-				packaging 'jar'
-
-				description 'Efficient routing of events with a DSL for providing a concise overview.'
-				url 'https://github.com/danskemarkets/event-router'
+			pom {
+				name        = 'Event Router'
+				description = 'Efficient routing of events with a DSL for providing a concise overview.'
+				url         = 'https://github.com/danskemarkets/event-router'
 
 				scm {
-					connection 'scm:git:git://github.com/danskemarkets/event-router'
-					developerConnection 'scm:git:git://github.com/danskemarkets/event-router'
-					url 'https://github.com/danskemarkets/event-router'
+					connection          = 'scm:git:git://github.com/danskemarkets/event-router'
+					developerConnection = 'scm:git:git://github.com/danskemarkets/event-router'
+					url                 = 'https://github.com/danskemarkets/event-router'
 				}
 
 				licenses {
 					license {
-						name 'The MIT License'
-						url 'https://opensource.org/licenses/MIT'
+						name = 'The MIT License'
+						url  = 'https://opensource.org/licenses/MIT'
 					}
 				}
 
 				developers {
 					developer {
-						id 'nisch'
-						name 'Nicholas Schultz-Møller'
-						email 'nisch@danskebank.dk'
-						organization 'Danske Bank A/S'
+						id           = 'nisch'
+						name         = 'Nicholas Schultz-Møller'
+						email        = 'nisch@danskebank.dk'
+						organization = 'Danske Bank A/S'
 					}
 				}
 			}
 		}
 	}
+
+	repositories {
+		maven {
+			name = 'Sonatype'
+			url  = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+			credentials {
+				username = ossrhUsername
+				password = ossrhPassword
+			}
+		}
+	}
+}
+
+signing {
+	sign publishing.publications.eventRouter
 }
