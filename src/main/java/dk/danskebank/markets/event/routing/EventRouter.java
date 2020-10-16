@@ -12,6 +12,21 @@ import java.util.*;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * <p>Create an {@code EventRouter.Builder} or {@code EventRouter.BreadthFirstBuilder} to build the {@code EventRouter}.
+ *
+ * <p>Example:
+ * <pre>{@code
+ *     Dispatcher eventRouter = new EventRouter.Builder()
+ *         .route(   Start.class).to(priceHandler, tradeHandler)
+ *         .route(    Stop.class).to(tradeHandler, priceHandler)
+ *         .route(NewTrade.class).to(tradeHandler)
+ *         .route(NewPrice.class).to(priceHandler)
+ *         .route(    Tick.class).to(priceHandler)
+ *     .build();
+ * }
+ * </pre>
+ */
 public abstract class EventRouter implements Dispatcher {
 	@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 	private static class DepthFirst extends EventRouter {

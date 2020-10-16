@@ -2,24 +2,35 @@
 
 ## Introduction
 
-This library implements a low latency router for events. It's similar to Guava's EventBus, but the routing is explicitly
-specified using a DSL to provide an overview. Furthermore, the implementation is ~6 times faster than Guava's EventBus.
+This library implements a low latency router for events and a DSL for specifying the routing.
+It's similar to Google Guava's `EventBus`, however,
+
+1. it's 6 times faster than Guava's `EventBus` and 
+2. the routing is explicitly specified using a DSL to provide an overview (instead of annotations being distributed across various classes.)
+
+See [this repo](https://github.com/danskemarkets/jmh-event-router) for a JMH benchmark comparison with Guava's EventBus.
 
 The library can be used for efficiently dispatching different types of events to different handlers. In Danske Bank, we 
 typically use this library to read events from different sources, publish them to an LMAX Disruptor and then route the
-events to an appropriate handler on the Disruptor thread.
+events to an appropriate handler after reading it off the RingBuffer (using a single Disruptor `EventHandler`).
 
 ## Dispatching
 
-A key interface is the `Dispatcher` interface:
+The library uses a general concept of a `Dispatcher`:
 
     public interface Dispatcher {
         void dispatch(Object event);
     }
 
-## Event Routing
+The `EventRouter` implements this interface, and routing events to handlers is as simple as invoking `#dispatch`
+on the router instance:
 
-The routing of events to handlers can be specified via a DSL. Under the hood, it creates a custom dispatcher.
+    Dispatcher eventRouter = // Setup via DSL, see below.
+    eventRouter.dispatch(event);
+
+## Event Router DSL
+
+The creation of an `EventRouter` can be specified via a DSL.
 
 As an example:
 
@@ -46,10 +57,6 @@ The order that handlers are listed in is guaranteed to be the order that events 
 
 The default is to process events depth-first. I.e. if a handler dispatches a new event back to the EventRouter, it will
 be dispatched immediately to the next handler.
-
-Events are routed (dispatched) to its handler(s) by invoking:
-
-    router.dispatch(event);
 
 If breadth-first semantics are desired, there's an alternative builder that can be used:
 
@@ -91,7 +98,7 @@ automatically have the `setDispacher` method invoked when the `EventRouter` is b
 
 ### Logging
 
-The default logging level is INFO.
+The default logging level is `org.slf4j.event.Level.INFO`.
 
 However, all events can be logged at another level by passing the appropriate level in the `Builder` constructor, and
 it can even be overridden on an event level basis:
