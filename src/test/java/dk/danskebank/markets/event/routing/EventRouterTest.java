@@ -21,11 +21,6 @@ public class EventRouterTest {
 	class Event2 implements Event {}
 	@EqualsAndHashCode
 	class Event3 {}
-	class Event4 {
-		@Override public String toString() {
-			throw new RuntimeException("Error in toString!");
-		}
-	}
 
 	class Handler1 {
 		public void on(Event1 event) { onPrivate(event); }
@@ -39,7 +34,6 @@ public class EventRouterTest {
 	class Handler4 {
 		public void on(Event1 event) {}
 		public void on(Event3 event) {}
-		public void on(Event4 event) {}
 	}
 	class Handler5 implements UsesDispatcher {
 		private Dispatcher dispatcher;
@@ -169,16 +163,6 @@ public class EventRouterTest {
 				.build();
 
 		verify(handler5).setDispatcher(dispatcher);
-	}
-
-	@Test void whenDispatchingEventsWithBrokenToStringItShouldThrow() {
-		val event4     = new Event4();
-		val handler4   = mock(Handler4.class);
-		val dispatcher = new EventRouter.Builder()
-				.route(Event4.class).to(handler4)
-			.build();
-		val exception = assertThrows(RuntimeException.class, () -> dispatcher.dispatch(event4));
-		assertEquals("Error in toString!", exception.getMessage());
 	}
 
 	@Test void whenDispatchingEventsItShouldBePassedToRoutedHandlersDepthFirstByDefault() {

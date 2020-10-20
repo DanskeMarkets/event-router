@@ -14,6 +14,22 @@ The library can be used for efficiently dispatching different types of events to
 typically use this library to read events from different sources, publish them to an LMAX Disruptor and then route the
 events to an appropriate handler after reading it off the RingBuffer (using a single Disruptor `EventHandler`).
 
+## Setup
+
+To use this library, add it as a dependency:
+
+**Maven:**
+
+    <dependency>
+      <groupId>com.github.danskemarkets</groupId>
+      <artifactId>event-router</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+
+**Gradle:**
+
+    implementation group: 'com.github.danskemarkets', name: 'event-router', version: '1.0.1'
+
 ## Dispatching
 
 The library uses a general concept of a `Dispatcher`:

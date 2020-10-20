@@ -34,20 +34,13 @@ class Handler {
 	}
 
 	private void logTheDispatch(Object event) {
-		try {
-			val eventAsString = event.toString();
-			switch (level) {
-				case TRACE: log.trace(logString, eventAsString); break;
-				case DEBUG: log.debug(logString, eventAsString); break;
-				case INFO:  log.info( logString, eventAsString); break;
-				case WARN:  log.warn( logString, eventAsString); break;
-				case ERROR: log.error(logString, eventAsString); break;
-				default: throw new IllegalStateException("Unknown log level: "+level);
-			}
-		}
-		catch (Throwable e) {
-			log.error("Logging an event threw an exception.", e);
-			throw e;
+		switch (level) {
+			case TRACE: log.trace(logString, event); break;
+			case DEBUG: log.debug(logString, event); break;
+			case INFO:  log.info( logString, event); break;
+			case WARN:  log.warn( logString, event); break;
+			case ERROR: log.error(logString, event); break;
+			default: throw new IllegalStateException("Unknown log level: "+level);
 		}
 	}
 }
