@@ -3,9 +3,9 @@
 ## Introduction
 
 This library implements a low latency router for events and a DSL for specifying the routing.
-It's similar to Google Guava's `EventBus`, however,
+It's similar to Google Guava's [EventBus](https://github.com/google/guava/wiki/EventBusExplained), however,
 
-1. it's 6 times faster than Guava's `EventBus` and 
+1. it's 6 times faster than Guava's EventBus and
 2. the routing is explicitly specified using a DSL to provide an overview (instead of annotations being distributed across various classes.)
 
 See [this repo](https://github.com/danskemarkets/jmh-event-router) for a JMH benchmark comparison with Guava's EventBus.
