@@ -16,19 +16,19 @@ events to an appropriate handler after reading it off the RingBuffer (using a si
 
 ## Setup
 
-To use this library, add it as a dependency:
+To use this library, add it as a dependency (replace `x.y.z` with the latest version):
 
 **Maven:**
 
     <dependency>
-      <groupId>com.github.danskemarkets</groupId>
+      <groupId>dk.danskebank.markets</groupId>
       <artifactId>event-router</artifactId>
-      <version>1.0.1</version>
+      <version>x.y.z</version>
     </dependency>
 
 **Gradle:**
 
-    implementation group: 'com.github.danskemarkets', name: 'event-router', version: '1.0.1'
+    implementation group: 'dk.danskebank.markets', name: 'event-router', version: 'x.y.z'
 
 ## Dispatching
 
