@@ -14,7 +14,7 @@ class Handler {
 	private final Level level;
 	private final String logString;
 
-	public Handler(Object target, Method method, Level level) {
+	Handler(Object target, Method method, Level level) {
 		this.target         = target;
 		this.method         = method;
 		this.level          = level;
@@ -22,7 +22,7 @@ class Handler {
 		this.logString      = "Dispatching to "+targetClassName+": {}.";
 	}
 
-	public void dispatch(Object event) {
+	void dispatch(Object event) {
 		try {
 			logTheDispatch(event);
 			// Performance critical.
