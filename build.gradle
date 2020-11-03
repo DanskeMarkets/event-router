@@ -9,8 +9,8 @@ targetCompatibility = JavaVersion.VERSION_1_10
 sourceCompatibility = JavaVersion.VERSION_1_10
 
 archivesBaseName    = 'event-router'
-group               = 'com.github.danskemarkets'
-version             = '1.0.1'
+group               = 'dk.danskebank.markets'
+version             = '1.0.0'
 
 repositories {
 	// Needed for the developer environment inside Danske Bank.
