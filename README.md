@@ -14,6 +14,12 @@ The library can be used for efficiently dispatching different types of events to
 typically use this library to read events from different sources, publish them to an LMAX Disruptor and then route the
 events to an appropriate handler after reading it off the RingBuffer (using a single Disruptor `EventHandler`).
 
+## Project Lifecycle
+
+If Danske Bank stops developing this project, it will be stated in this readme.
+While this project is actively developed, reported bugs, that are verified, will be fixed.
+Feature requests/pull requests will be accepted/rejected at Danske Bank's sole discretion without guarantees for any explanation.
+
 ## Setup
 
 To use this library, add it as a dependency (replace `x.y.z` with the latest version):
