@@ -121,7 +121,7 @@ automatically have the `setDispacher` method invoked when the `EventRouter` is b
 
 ### Logging
 
-The default logging level is `org.slf4j.event.Level.INFO`.
+The default logging level is `org.apache.logging.log4j.Level.INFO`.
 
 However, all events can be logged at another level by passing the appropriate level in the `Builder` constructor, and
 it can even be overridden on an event level basis:
