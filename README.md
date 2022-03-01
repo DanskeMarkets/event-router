@@ -59,7 +59,8 @@ As an example:
         .route(ClearPrices.class).to(priceHandler)
     .build();
 
-A handler class must have a single, public method taking the event class (or one of its interfaces) as the only argument.
+A handler class must have a single, public method taking the event class (or one of its interfaces/super classes) as
+the only argument.
 The name of the method is not important and can be chosen depending on readability and style. E.g. the `TradeHandler` could
 look like:
 

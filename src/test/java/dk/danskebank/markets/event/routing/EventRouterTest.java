@@ -26,7 +26,8 @@ public class EventRouterTest {
 		public void on(Event1 event) { onPrivate(event); }
 		private void onPrivate(Event1 event) {} // Private methods are ok.
 	}
-	class Handler2 { public void on(Event event) {} }
+	abstract class AbstractHandler { public void on(Event event) {} }
+	class Handler2 extends AbstractHandler {}
 	class Handler3 {// Incorrect handler.
 		public void on1(Event1 event) {}
 		public void on2(Event1 event) {}

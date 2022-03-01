@@ -118,7 +118,7 @@ public abstract class EventRouter implements Dispatcher {
 				}
 
 				var found = false;
-				for (var method: handlerClass.getDeclaredMethods()) {
+				for (val method: handlerClass.getMethods()) {
 					Class<?>[] parameterTypes = method.getParameterTypes();
 					if (parameterTypes.length != 1 || method.isSynthetic()) continue;
 					if (!isPublic(method)) continue;
@@ -128,9 +128,7 @@ public abstract class EventRouter implements Dispatcher {
 					val superTypes      = new Class[eventInterfaces.length + 1];
 
 					superTypes[0] = eventClass;
-					for (int i = 0; i < eventInterfaces.length; ++i) {
-						superTypes[i + 1] = eventInterfaces[i];
-					}
+					System.arraycopy(eventInterfaces, 0, superTypes, 1, eventInterfaces.length);
 
 					for (var type : superTypes) {
 						if (type.equals(paramClass)) {
@@ -163,7 +161,7 @@ public abstract class EventRouter implements Dispatcher {
 					return Builder.this;
 				}
 
-				public <E2> RouteEvent route(Class<E2> eventClass) {
+				public <E2> RouteEvent<E2> route(Class<E2> eventClass) {
 					addHandlers(defaultLogLevel);
 					return new RouteEvent<>(eventClass);
 				}

@@ -10,7 +10,7 @@ sourceCompatibility = JavaVersion.VERSION_1_10
 
 archivesBaseName    = 'event-router'
 group               = 'dk.danskebank.markets'
-version             = '1.0.0'
+version             = '1.1.0'
 
 repositories {
 	// Needed for the developer environment inside Danske Bank.
@@ -39,8 +39,8 @@ artifacts {
 
 dependencies {
 	implementation     group: 'org.slf4j',         name: 'slf4j-api',     version: '1.7.30'
-	testImplementation group: 'org.mockito',       name: 'mockito-core',  version: '3.5.10'
-	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.6.2'
+	testImplementation group: 'org.mockito',       name: 'mockito-core',  version: '4.2.0'
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.8.2'
 }
 
 publishing {
