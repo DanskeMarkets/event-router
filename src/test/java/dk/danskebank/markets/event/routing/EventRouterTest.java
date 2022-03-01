@@ -3,12 +3,12 @@ package dk.danskebank.markets.event.routing;
 import dk.danskebank.markets.event.processing.Dispatcher;
 import lombok.EqualsAndHashCode;
 import lombok.val;
+import org.apache.logging.log4j.Level;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
-import static org.slf4j.event.Level.*;
 
 public class EventRouterTest {
 	// Event and Handler classes used in the tests.
@@ -122,9 +122,9 @@ public class EventRouterTest {
 		val event2     = new Event2();
 		val handler1   = mock(Handler1.class);
 		val handler2   = mock(Handler2.class);
-		val dispatcher = new EventRouter.Builder(DEBUG)
-				.route(Event1.class).to(handler1).logAs(WARN )
-				.route(Event2.class).to(handler2).logAs(ERROR)
+		val dispatcher = new EventRouter.Builder(Level.DEBUG)
+				.route(Event1.class).to(handler1).logAs(Level.WARN )
+				.route(Event2.class).to(handler2).logAs(Level.ERROR)
 				.build();
 		dispatcher.dispatch(event1);
 		dispatcher.dispatch(event2);

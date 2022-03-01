@@ -1,13 +1,15 @@
 package dk.danskebank.markets.event.routing;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import lombok.val;
-import org.slf4j.event.Level;
+import org.apache.logging.log4j.Level;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-@Slf4j
+import static org.apache.logging.log4j.Level.INFO;
+
+@Log4j2
 class Handler {
 	private final Object target;
 	private final Method method;
@@ -34,13 +36,18 @@ class Handler {
 	}
 
 	private void logTheDispatch(Object event) {
-		switch (level) {
-			case TRACE: log.trace(logString, event); break;
-			case DEBUG: log.debug(logString, event); break;
-			case INFO:  log.info( logString, event); break;
-			case WARN:  log.warn( logString, event); break;
-			case ERROR: log.error(logString, event); break;
-			default: throw new IllegalStateException("Unknown log level: "+level);
+		if (Level.TRACE.equals(level)) {
+			log.trace(logString, event);
+		} else if (Level.DEBUG.equals(level)) {
+			log.debug(logString, event);
+		} else if (INFO.equals(level)) {
+			log.info(logString, event);
+		} else if (Level.WARN.equals(level)) {
+			log.warn(logString, event);
+		} else if (Level.ERROR.equals(level)) {
+			log.error(logString, event);
+		} else {
+			throw new IllegalStateException("Unknown log level: " + level);
 		}
 	}
 }

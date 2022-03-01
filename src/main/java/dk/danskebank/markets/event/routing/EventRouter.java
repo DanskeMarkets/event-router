@@ -4,7 +4,7 @@ import dk.danskebank.markets.event.processing.Dispatcher;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import org.slf4j.event.Level;
+import org.apache.logging.log4j.Level;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
