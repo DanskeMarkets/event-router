@@ -30,8 +30,11 @@ class Handler {
 			// Performance critical.
 			method.invoke(target, event);
 		}
-		catch (IllegalAccessException | InvocationTargetException e) {
-			throw new Error("Exception occurred while dispatching "+event+" to "+ target, e);
+		catch (InvocationTargetException e) {
+			throw new RuntimeException("InvocationTargetException occurred while dispatching "+event+" to "+target, e.getCause());
+		}
+		catch (IllegalAccessException e) {
+			throw new Error("IllegalAccessException occurred while dispatching "+event+" to "+target, e);
 		}
 	}
 
