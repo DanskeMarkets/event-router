@@ -47,7 +47,7 @@ The library uses a general concept of a `Dispatcher`:
 The `EventRouter` implements this interface, and routing events to handlers is as simple as invoking `#dispatch`
 on the router instance:
 
-    Dispatcher eventRouter = // Setup via DSL, see below.
+    Dispatcher eventRouter = ... // Setup via DSL, see below.
     eventRouter.dispatch(event);
 
 ## Event Router DSL

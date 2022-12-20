@@ -96,6 +96,8 @@ public abstract class EventRouter implements Dispatcher {
 		public class RouteEvent<E> {
 			private final Class<E> eventClass;
 
+			private final Class[] eventSuperTypes;
+
 			public RouteEvent(Class<E> eventClass) {
 				this.eventClass = requireNonNull(eventClass);
 				if (eventClass.isInterface()) {
@@ -105,6 +107,10 @@ public abstract class EventRouter implements Dispatcher {
 					throw new IllegalStateException("There's already a routing for "+eventClass.getSimpleName());
 				}
 				eventToHandlers.put(eventClass, new ArrayList<>());
+				val eventInterfaces = eventClass.getInterfaces();
+				eventSuperTypes     = new Class[eventInterfaces.length + 1];
+				eventSuperTypes[0]  = eventClass;
+				System.arraycopy(eventInterfaces, 0, eventSuperTypes, 1, eventInterfaces.length);
 			}
 
 			public WithDefaultLogLevel to(Object handler, Object... handlers) {
@@ -118,23 +124,17 @@ public abstract class EventRouter implements Dispatcher {
 				}
 
 				var found = false;
-				for (val method: handlerClass.getMethods()) {
+				for (val method : handlerClass.getMethods()) {
 					Class<?>[] parameterTypes = method.getParameterTypes();
 					if (parameterTypes.length != 1 || method.isSynthetic()) continue;
 					if (!isPublic(method)) continue;
 
-					val paramClass      = parameterTypes[0];
-					val eventInterfaces = eventClass.getInterfaces();
-					val superTypes      = new Class[eventInterfaces.length + 1];
-
-					superTypes[0] = eventClass;
-					System.arraycopy(eventInterfaces, 0, superTypes, 1, eventInterfaces.length);
-
-					for (var type : superTypes) {
-						if (type.equals(paramClass)) {
+					val paramClass = parameterTypes[0];
+					for (val eventSuperType : eventSuperTypes) {
+						if (eventSuperType.equals(paramClass)) {
 							if (found) {
 								throw new IllegalStateException("Only one method in "+handler.getClass().getSimpleName()+
-										" can handle the event type "+type.getSimpleName());
+										" can handle the event type "+eventSuperType.getSimpleName());
 							}
 							found = true;
 							val handlerList = eventToHandlers.get(eventClass);
